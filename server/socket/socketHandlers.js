@@ -1,6 +1,5 @@
 import User from '../models/User.js'
 import Message from '../models/Message.js'
-import Chat from '../models/Chat.js'
 
 const connectedUsers = new Map()
 
@@ -88,52 +87,6 @@ export const handleConnection = (io, socket) => {
     } catch (error) {
       console.error('Error updating message status:', error)
     }
-  })
-
-  // Video call handlers
-  socket.on('join-room', (roomId) => {
-    socket.join(roomId)
-    socket.to(roomId).emit('user-joined')
-    console.log(`User joined video room: ${roomId}`)
-  })
-
-  socket.on('leave-room', (roomId) => {
-    socket.leave(roomId)
-    socket.to(roomId).emit('user-left')
-    console.log(`User left video room: ${roomId}`)
-  })
-
-  socket.on('offer', (data) => {
-    socket.to(data.roomId).emit('offer', data)
-  })
-
-  socket.on('answer', (data) => {
-    socket.to(data.roomId).emit('answer', data)
-  })
-
-  socket.on('ice-candidate', (data) => {
-    socket.to(data.roomId).emit('ice-candidate', data)
-  })
-
-  // Handle call initiation
-  socket.on('initiateCall', ({ targetUserId, roomId, isVideo }) => {
-    socket.to(`user_${targetUserId}`).emit('incomingCall', {
-      from: connectedUsers.get(socket.id),
-      roomId,
-      isVideo
-    })
-  })
-
-  socket.on('acceptCall', ({ roomId }) => {
-    socket.to(roomId).emit('callAccepted')
-  })
-
-  socket.on('rejectCall', ({ roomId }) => {
-    socket.to(roomId).emit('callRejected')
-  })
-
-  socket.on('endCall', ({ roomId }) => {
-    socket.to(roomId).emit('callEnded')
   })
 
   // Handle disconnection

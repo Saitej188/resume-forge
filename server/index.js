@@ -5,7 +5,6 @@ import cors from 'cors'
 import dotenv from 'dotenv'
 import mongoose from 'mongoose'
 import session from 'express-session'
-import passport from 'passport'
 import helmet from 'helmet'
 import rateLimit from 'express-rate-limit'
 
@@ -16,9 +15,6 @@ import userRoutes from './routes/user.js'
 
 // Import socket handlers
 import { handleConnection } from './socket/socketHandlers.js'
-
-// Import passport config
-import './config/passport.js'
 
 dotenv.config()
 
@@ -64,10 +60,6 @@ app.use(session({
     maxAge: 24 * 60 * 60 * 1000 // 24 hours
   }
 }))
-
-// Passport middleware
-app.use(passport.initialize())
-app.use(passport.session())
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/connecthub')

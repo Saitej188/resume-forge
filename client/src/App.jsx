@@ -6,7 +6,6 @@ import { initializeSocket } from './store/slices/socketSlice'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import Chat from './pages/Chat'
-import VideoCall from './pages/VideoCall'
 import ProtectedRoute from './components/ProtectedRoute'
 import LoadingSpinner from './components/LoadingSpinner'
 
@@ -48,14 +47,6 @@ function App() {
           element={
             <ProtectedRoute>
               <Chat />
-            </ProtectedRoute>
-          } 
-        />
-        <Route 
-          path="/call/:roomId" 
-          element={
-            <ProtectedRoute>
-              <VideoCall />
             </ProtectedRoute>
           } 
         />

@@ -1,6 +1,19 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import api from '../../utils/api'
 
+export const login = createAsyncThunk(
+  'auth/login',
+  async ({ email, password, name, isSignUp }, { rejectWithValue }) => {
+    try {
+      const endpoint = isSignUp ? '/auth/register' : '/auth/login'
+      const response = await api.post(endpoint, { email, password, name })
+      return response.data
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || 'Authentication failed')
+    }
+  }
+)
+
 export const checkAuth = createAsyncThunk(
   'auth/checkAuth',
   async (_, { rejectWithValue }) => {
@@ -44,6 +57,20 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(login.pending, (state) => {
+        state.loading = true
+        state.error = null
+      })
+      .addCase(login.fulfilled, (state, action) => {
+        state.loading = false
+        state.user = action.payload.user
+        state.isAuthenticated = true
+        state.error = null
+      })
+      .addCase(login.rejected, (state, action) => {
+        state.loading = false
+        state.error = action.payload
+      })
       .addCase(checkAuth.pending, (state) => {
         state.loading = true
       })

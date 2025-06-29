@@ -1,7 +1,7 @@
 {
   "name": "connecthub",
   "version": "1.0.0",
-  "description": "Real-time messaging and video calling platform",
+  "description": "Real-time messaging platform",
   "main": "server/index.js",
   "type": "module",
   "scripts": {
@@ -12,7 +12,7 @@
     "start": "cd server && npm start",
     "install-deps": "npm install && cd client && npm install && cd ../server && npm install"
   },
-  "keywords": ["chat", "video-call", "webrtc", "socket.io", "mern"],
+  "keywords": ["chat", "messaging", "socket.io", "mern"],
   "author": "ConnectHub Team",
   "license": "MIT",
   "devDependencies": {
